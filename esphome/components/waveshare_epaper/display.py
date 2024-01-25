@@ -99,7 +99,7 @@ MODELS = {
     "2.90in-b": ("b", WaveshareEPaper2P9InB),
     "2.90in-bv3": ("b", WaveshareEPaper2P9InBV3),
     "4.20in": ("b", WaveshareEPaper4P2In),
-    "4.20inV2": ("b", WaveshareEPaper4P2InV2),
+    "4.20inv2": ("b", WaveshareEPaper4P2InV2),
     "4.20in-bv2": ("b", WaveshareEPaper4P2InBV2),
     "5.83in": ("b", WaveshareEPaper5P8In),
     "5.83inv2": ("b", WaveshareEPaper5P8InV2),
