@@ -1198,86 +1198,65 @@ void WaveshareEPaper4P2In::dump_config() {
 // Datasheet:
 // ========================================================
 void WaveshareEPaper4P2InV2::initialize() {
-
-  // COMMAND POWER SETTING
-  this->command(0x01);
-  this->data(0x03);  // VDS_EN, VDG_EN
-  this->data(0x00);  // VCOM_HV, VGHL_LV[1], VGHL_LV[0]
-  this->data(0x2B);  // VDH
-  this->data(0x2B);  // VDL
-  this->data(0xFF);  // VDHR
-
-  // COMMAND BOOSTER SOFT START
-  this->command(0x06);
-  this->data(0x17);  // PHA
-  this->data(0x17);  // PHB
-  this->data(0x17);  // PHC
-
-  // COMMAND POWER ON
-  this->command(0x04);
-  this->wait_until_idle_();
-  delay(10);
-  // COMMAND PANEL SETTING
-  this->command(0x00);
-  this->data(0xBF);  // KW-BF   KWR-AF  BWROTP 0f
-  this->data(0x0B);
-  // COMMAND PLL CONTROL
-  this->command(0x30);
-  this->data(0x3C);  // 3A 100HZ   29 150Hz 39 200HZ  31 171HZ
-
+  this->reset_pin_->digital_write(false);
   delay(2);
-  // COMMAND LUT FOR VCOM
-  this->command(0x20);
-  for (uint8_t i : LUT_VCOM_DC_4_2)
-    this->data(i);
-  // COMMAND LUT WHITE TO WHITE
+  this->reset_pin_->digital_write(true);
+  delay(200);  // NOLINT
+  this->wait_until_idle_();
+  this->command(0x12);
+  delay(2);
+  this->wait_until_idle_();
+
   this->command(0x21);
-  for (uint8_t i : LUT_WHITE_TO_WHITE_4_2)
-    this->data(i);
-  // COMMAND LUT BLACK TO WHITE
-  this->command(0x22);
-  for (uint8_t i : LUT_BLACK_TO_WHITE_4_2)
-    this->data(i);
-  // COMMAND LUT WHITE TO BLACK
-  this->command(0x23);
-  for (uint8_t i : LUT_WHITE_TO_BLACK_4_2)
-    this->data(i);
-  // COMMAND LUT BLACK TO BLACK
-  this->command(0x24);
-  for (uint8_t i : LUT_BLACK_TO_BLACK_4_2)
-    this->data(i);
+  this->data(0x40);  
+  this->data(0x00);  
+
+  this->command(0x3c);
+  this->data(0x05); 
+
+  this->command(0x11);
+  this->data(0x03); 
+
+  this->command(0x44);
+  this->data(0x00); 
+  this->data(0x31); 
+
+  this->command(0x45);
+  this->data(0x00); 
+  this->data(0x00);   
+  this->data(0x2B); 
+  this->data(0x01);  
+
+  this->command(0x4E);
+  this->data(0x00); 
+
+  this->command(0x4F);
+  this->data(0x00); 
+  this->data(0x00); 
+  this->wait_until_idle_();
 }
 void HOT WaveshareEPaper4P2InV2::display() {
-  // COMMAND RESOLUTION SETTING
-  this->command(0x61);
-  this->data(0x01);
-  this->data(0x90);
-  this->data(0x01);
-  this->data(0x2C);
-
-  // COMMAND VCM DC SETTING REGISTER
-  this->command(0x82);
-  this->data(0x12);
-
-  // COMMAND VCOM AND DATA INTERVAL SETTING
-  this->command(0x50);
-  this->data(0x97);
 
   // COMMAND DATA START TRANSMISSION 1
-  this->command(0x10);
+  this->command(0x24);
   delay(2);
   this->start_data_();
   this->write_array(this->buffer_, this->get_buffer_length_());
   this->end_data_();
   delay(2);
   // COMMAND DATA START TRANSMISSION 2
-  this->command(0x13);
+  this->command(0x26);
   delay(2);
   this->start_data_();
   this->write_array(this->buffer_, this->get_buffer_length_());
   this->end_data_();
-  // COMMAND DISPLAY REFRESH
-  this->command(0x12);
+
+    //Epd::Turn on Display 
+  this->command(0x22);
+  this->data(0xF7);
+  this->command(0x20);
+  this->wait_until_idle_();
+  
 }
 int WaveshareEPaper4P2InV2::get_width_internal() { return 400; }
 int WaveshareEPaper4P2InV2::get_height_internal() { return 300; }
