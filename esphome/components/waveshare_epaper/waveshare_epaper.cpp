@@ -2650,7 +2650,6 @@ void WaveshareEPaper4P2InV2::initialize() {
   this->wait_until_idle_();
 }
 void HOT WaveshareEPaper4P2InV2::display() {
-
   // COMMAND DATA START TRANSMISSION 1
   this->command(0x24);
   delay(2);
@@ -2665,7 +2664,7 @@ void HOT WaveshareEPaper4P2InV2::display() {
   this->write_array(this->buffer_, this->get_buffer_length_());
   this->end_data_();
 
-  //Epd::Turn on Display
+  // Epd::Turn on Display
   this->command(0x22);
   this->data(0xF7);
   this->command(0x20);
