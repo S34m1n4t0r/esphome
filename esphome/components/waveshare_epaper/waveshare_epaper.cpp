@@ -1212,10 +1212,10 @@ void WaveshareEPaper4P2InV2::initialize() {
   this->command(0x21);
   this->data(0x40);
   this->data(0x00);
-  
+
   this->command(0x3c);
   this->data(0x05);
-  
+
   this->command(0x11);
   this->data(0x03);
 
