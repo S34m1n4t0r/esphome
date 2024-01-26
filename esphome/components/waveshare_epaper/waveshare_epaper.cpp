@@ -1195,7 +1195,9 @@ void WaveshareEPaper4P2In::dump_config() {
 
 // ========================================================
 //               4.20in Rev 2 
-// Datasheet:
+// Datasheet/Reference: 
+//     - https://files.waveshare.com/upload/6/6a/4.2inch-e-paper-specification.pdf
+//     - https://github.com/waveshareteam/e-Paper/blob/master/RaspberryPi_JetsonNano/c/lib/e-Paper/EPD_4in2_V2.c
 // ========================================================
 void WaveshareEPaper4P2InV2::initialize() {
   this->reset_pin_->digital_write(false);
@@ -1262,7 +1264,7 @@ int WaveshareEPaper4P2InV2::get_width_internal() { return 400; }
 int WaveshareEPaper4P2InV2::get_height_internal() { return 300; }
 void WaveshareEPaper4P2InV2::dump_config() {
   LOG_DISPLAY("", "Waveshare E-Paper", this);
-  ESP_LOGCONFIG(TAG, "  Model: 4.2in");
+  ESP_LOGCONFIG(TAG, "  Model: 4.2in (V2)");
   LOG_PIN("  Reset Pin: ", this->reset_pin_);
   LOG_PIN("  DC Pin: ", this->dc_pin_);
   LOG_PIN("  Busy Pin: ", this->busy_pin_);
