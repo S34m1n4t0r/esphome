@@ -331,7 +331,7 @@ class WaveshareEPaper4P2InV2 : public WaveshareEPaper {
 
   void deep_sleep() override {
     this->command(0x10);
-    this->data(0x01);  
+    this->data(0x01);
     delay(100);  // NOLINT
   }
 
