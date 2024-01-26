@@ -1253,7 +1253,7 @@ void HOT WaveshareEPaper4P2InV2::display() {
   this->write_array(this->buffer_, this->get_buffer_length_());
   this->end_data_();
 
-    //Epd::Turn on Display
+  //Epd::Turn on Display
   this->command(0x22);
   this->data(0xF7);
   this->command(0x20);
