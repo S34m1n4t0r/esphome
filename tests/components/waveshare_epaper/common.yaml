@@ -559,7 +559,6 @@ display:
     lambda: |-
       it.rectangle(0, 0, it.get_width(), it.get_height());
 
-
   # 5.83 inch displays
   - platform: waveshare_epaper
     id: epd_5_83
