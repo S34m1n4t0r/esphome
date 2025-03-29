@@ -2606,6 +2606,82 @@ void WaveshareEPaper4P2In::dump_config() {
 }
 
 // ========================================================
+//               4.20in Rev 2
+// Datasheet/Reference:
+//     - https://files.waveshare.com/upload/6/6a/4.2inch-e-paper-specification.pdf
+//     - https://github.com/waveshareteam/e-Paper/blob/master/RaspberryPi_JetsonNano/c/lib/e-Paper/EPD_4in2_V2.c
+// ========================================================
+void WaveshareEPaper4P2InV2::initialize() {
+  this->reset_pin_->digital_write(false);
+  delay(2);
+  this->reset_pin_->digital_write(true);
+  delay(200);  // NOLINT
+  this->wait_until_idle_();
+  this->command(0x12);
+  delay(2);
+  this->wait_until_idle_();
+
+  this->command(0x21);
+  this->data(0x40);
+  this->data(0x00);
+
+  this->command(0x3c);
+  this->data(0x05);
+
+  this->command(0x11);
+  this->data(0x03);
+
+  this->command(0x44);
+  this->data(0x00);
+  this->data(0x31);
+
+  this->command(0x45);
+  this->data(0x00);
+  this->data(0x00);
+  this->data(0x2B);
+  this->data(0x01);
+
+  this->command(0x4E);
+  this->data(0x00);
+
+  this->command(0x4F);
+  this->data(0x00);
+  this->data(0x00);
+  this->wait_until_idle_();
+}
+void HOT WaveshareEPaper4P2InV2::display() {
+  // COMMAND DATA START TRANSMISSION 1
+  this->command(0x24);
+  delay(2);
+  this->start_data_();
+  this->write_array(this->buffer_, this->get_buffer_length_());
+  this->end_data_();
+  delay(2);
+  // COMMAND DATA START TRANSMISSION 2
+  this->command(0x26);
+  delay(2);
+  this->start_data_();
+  this->write_array(this->buffer_, this->get_buffer_length_());
+  this->end_data_();
+
+  // Epd::Turn on Display
+  this->command(0x22);
+  this->data(0xF7);
+  this->command(0x20);
+  this->wait_until_idle_();
+}
+int WaveshareEPaper4P2InV2::get_width_internal() { return 400; }
+int WaveshareEPaper4P2InV2::get_height_internal() { return 300; }
+void WaveshareEPaper4P2InV2::dump_config() {
+  LOG_DISPLAY("", "Waveshare E-Paper", this);
+  ESP_LOGCONFIG(TAG, "  Model: 4.2in (V2)");
+  LOG_PIN("  Reset Pin: ", this->reset_pin_);
+  LOG_PIN("  DC Pin: ", this->dc_pin_);
+  LOG_PIN("  Busy Pin: ", this->busy_pin_);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+// ========================================================
 //               4.20in Type B (LUT from OTP)
 // Datasheet:
 //  - https://www.waveshare.com/w/upload/2/20/4.2inch-e-paper-module-user-manual-en.pdf
