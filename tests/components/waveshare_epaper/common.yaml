@@ -540,6 +540,25 @@ display:
       number: ${reset_pin}
     lambda: |-
       it.rectangle(0, 0, it.get_width(), it.get_height());
+      
+  - platform: waveshare_epaper
+    spi_id: spi_waveshare_epaper
+    cs_pin:
+      number: ${cs_pin}
+      allow_other_uses: true
+    dc_pin:
+      number: ${dc_pin}
+      allow_other_uses: true
+    busy_pin:
+      number: ${busy_pin}
+      allow_other_uses: true
+    reset_pin:
+      number: ${reset_pin}
+      allow_other_uses: true
+    model: 4.20inV2
+    lambda: |-
+      it.rectangle(0, 0, it.get_width(), it.get_height());
+
 
   # 5.83 inch displays
   - platform: waveshare_epaper
